@@ -54,7 +54,7 @@ useEffect(() => {
             <h2 className="text-3xl font-bold mb-4 text-white">Search Results</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {searchResults.map((item) => (
-                <div key={item.id} className="bg-gray-800 rounded-lg overflow-hidden">
+                <div key={item.id} className="bg-black rounded-lg overflow-hidden">
                   <img
                     src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
                     alt={item.title}
@@ -166,7 +166,7 @@ useEffect(() => {
                   <h2 className="text-3xl font-bold mb-4 text-white">Latest Movies</h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-12">
                     {sortedMovies.map((movie) => (
-                      <div key={movie.id} className="bg-gray-800 rounded-lg overflow-hidden">
+                      <div key={movie.id} className="bg-black rounded-lg overflow-hidden">
                         <img
                           src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                           alt={movie.title}
@@ -192,7 +192,7 @@ useEffect(() => {
                   <h2 className="text-3xl font-bold mb-4 text-white">Latest Series</h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {sortedSeries.map((series) => (
-                      <div key={series.id} className="bg-gray-800 rounded-lg overflow-hidden">
+                      <div key={series.id} className="bg-black rounded-lg overflow-hidden">
                         <img
                           src={`https://image.tmdb.org/t/p/w500${series.poster_path}`}
                           alt={series.title}

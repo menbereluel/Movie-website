@@ -20,7 +20,7 @@ const NavBar: React.FC<Props> = ({ onSearch }) => {
 
   return (
     <div>
-      <nav className="text-xl w-full h-15 bg-gray-800 text-white flex justify-around items-center px-8">
+      <nav className="text-xl w-full h-15 bg-black text-white flex justify-around items-center px-8">
         <div className="text-4xl">
           M<span className="text-yellow-600">oo</span>vie
         </div>
