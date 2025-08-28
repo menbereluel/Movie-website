@@ -29,7 +29,7 @@ const SignUp = () => {
   return (
     <div>
       <NavBar onSearch={() => {}} />
-      <div className="min-h-screen bg-gray-900 flex justify-center items-center">
+      <div className="min-h-screen bg-black flex justify-center items-center">
         <div className="bg-[url('/image/movie.jpg')] bg-no-repeat bg-cover w-110 h-132 shadow-lg hidden md:block"></div>
         <div className="bg-gray-800 p-8 rounded-lg text-white w-full max-w-md">
           <h1 className="text-4xl font-bold mb-2">Create an Account</h1>

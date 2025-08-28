@@ -1,18 +1,26 @@
 "use client";
-import React, { useState, useEffect } from 'react';
-import useMovieFetch, { Movie } from '../hooks/useFetchmovies';
-import Footer from '../sharedcomponent/Footer';
-import NavBar from '../sharedcomponent/NavBar';
+import React, { useState, useEffect } from "react";
+import useMovieFetch, { Movie } from "../hooks/useFetchmovies";
+import Footer from "../sharedcomponent/Footer";
+import NavBar from "../sharedcomponent/NavBar";
+
 const HomePage: React.FC = () => {
-  const { latestMovies, latestSeries, searchResults, loading, error, searchMovies } = useMovieFetch();
+  const {
+    latestMovies,
+    latestSeries,
+    searchResults,
+    loading,
+    error,
+    searchMovies,
+  } = useMovieFetch();
   const [currentIndex, setCurrentIndex] = useState(0);
- const [favorites, setFavorites] = useState<Movie[]>([]);
-useEffect(() => {
-  if (typeof window !== 'undefined') {
-    const storedFavorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    setFavorites(storedFavorites);
-  }
-}, []);
+  const [favorites, setFavorites] = useState<Movie[]>([]);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedFavorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+      setFavorites(storedFavorites);
+    }
+  }, []);
   const [showFavorites, setShowFavorites] = useState(false);
   useEffect(() => {
     const interval = setInterval(() => {
@@ -27,26 +35,36 @@ useEffect(() => {
       ? favorites.filter((fav) => fav.id !== movie.id)
       : [...favorites, movie];
     setFavorites(updated);
-    localStorage.setItem('favorites', JSON.stringify(updated));
+    localStorage.setItem("favorites", JSON.stringify(updated));
     try {
-      await fetch('/api/favorites', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ movie, action: favorites.some((fav) => fav.id === movie.id) ? 'remove' : 'add' }),
+      await fetch("/api/favorites", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          movie,
+          action: favorites.some((fav) => fav.id === movie.id) ? "remove" : "add",
+        }),
       });
     } catch (err) {
-      console.error('Failed to update favorites:', err);
+      console.error("Failed to update favorites:", err);
     }
   };
   const handleSearch = (query: string) => {
     searchMovies(query);
   };
-  const sortedMovies = [...latestMovies].sort((a, b) => new Date(b.release_date).getTime() - new Date(a.release_date).getTime());
-  const sortedSeries = [...latestSeries].sort((a, b) => new Date(b.release_date).getTime() - new Date(a.release_date).getTime());
+
+  const sortedMovies = [...latestMovies].sort(
+    (a, b) => new Date(b.release_date).getTime() - new Date(a.release_date).getTime()
+  );
+  const sortedSeries = [...latestSeries].sort(
+    (a, b) => new Date(b.release_date).getTime() - new Date(a.release_date).getTime()
+  );
+
   if (loading) return <p className="text-center mt-20">Loading...</p>;
   if (error) return <p className="text-center mt-20 text-red-500">{error}</p>;
+
   return (
-    <div>
+    <div className="bg-black min-h-screen">
       <NavBar onSearch={handleSearch} />
       <div className="container mx-auto px-4 py-8">
         {searchResults.length > 0 ? (
@@ -67,11 +85,13 @@ useEffect(() => {
                       onClick={() => handleFavorite(item)}
                       className={`mt-2 px-4 py-1 rounded ${
                         favorites.some((fav) => fav.id === item.id)
-                          ? 'bg-yellow-500 text-black'
-                          : 'border border-white text-white'
+                          ? "bg-yellow-500 text-black"
+                          : "border border-white text-white"
                       } hover:bg-yellow-600`}
                     >
-                      {favorites.some((fav) => fav.id === item.id) ? 'Remove from Favorites' : 'Add to Favorites'}
+                      {favorites.some((fav) => fav.id === item.id)
+                        ? "Remove from Favorites"
+                        : "Add to Favorites"}
                     </button>
                   </div>
                 </div>
@@ -85,7 +105,7 @@ useEffect(() => {
                 <div
                   key={movie.id}
                   className={`w-full h-full bg-cover bg-center absolute top-0 left-0 transition-opacity duration-1000 ${
-                    index === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                    index === currentIndex ? "opacity-100 z-10" : "opacity-0 z-0"
                   }`}
                   style={{
                     backgroundImage: `url(https://image.tmdb.org/t/p/original${movie.poster_path})`,
@@ -104,10 +124,14 @@ useEffect(() => {
                       <button
                         onClick={() => handleFavorite(movie)}
                         className={`border border-white px-6 py-2 font-semibold rounded hover:bg-white hover:text-black ${
-                          favorites.some((fav) => fav.id === movie.id) ? 'bg-yellow-500 text-black' : 'text-white'
+                          favorites.some((fav) => fav.id === movie.id)
+                            ? "bg-yellow-500 text-black"
+                            : "text-white"
                         }`}
                       >
-                        {favorites.some((fav) => fav.id === movie.id) ? 'Remove from Favorites' : 'Add to Favorites'}
+                        {favorites.some((fav) => fav.id === movie.id)
+                          ? "Remove from Favorites"
+                          : "Add to Favorites"}
                       </button>
                     </div>
                   </div>
@@ -119,7 +143,7 @@ useEffect(() => {
                     key={idx}
                     onClick={() => setCurrentIndex(idx)}
                     className={`w-3 h-3 rounded-full cursor-pointer transition-colors ${
-                      idx === currentIndex ? 'bg-yellow-500' : 'bg-white/50'
+                      idx === currentIndex ? "bg-yellow-500" : "bg-white/50"
                     }`}
                   />
                 ))}
@@ -130,7 +154,7 @@ useEffect(() => {
                 onClick={() => setShowFavorites(!showFavorites)}
                 className="mb-6 bg-yellow-500 text-black px-6 py-2 font-semibold rounded hover:bg-yellow-600"
               >
-                {showFavorites ? 'Show Latest' : 'Show Favorites'}
+                {showFavorites ? "Show Latest" : "Show Favorites"}
               </button>
               {showFavorites ? (
                 <div>
@@ -179,11 +203,11 @@ useEffect(() => {
                             onClick={() => handleFavorite(movie)}
                             className={`mt-2 px-4 py-1 rounded ${
                               favorites.some((fav) => fav.id === movie.id)
-                                ? 'bg-yellow-500 text-black'
-                                : 'border border-white text-white'
+                                ? "bg-yellow-500 text-black"
+                                : "border border-white text-white"
                             } hover:bg-yellow-600`}
                           >
-                            {favorites.some((fav) => fav.id === movie.id) ? 'Remove from Favorites' : 'Add to Favorites'}
+                            {favorites.some((fav) => fav.id === movie.id) ? "Remove from Favorites" : "Add to Favorites"}
                           </button>
                         </div>
                       </div>
@@ -205,11 +229,11 @@ useEffect(() => {
                             onClick={() => handleFavorite(series)}
                             className={`mt-2 px-4 py-1 rounded ${
                               favorites.some((fav) => fav.id === series.id)
-                                ? 'bg-yellow-500 text-black'
-                                : 'border border-white text-white'
+                                ? "bg-yellow-500 text-black"
+                                : "border border-white text-white"
                             } hover:bg-yellow-600`}
                           >
-                            {favorites.some((fav) => fav.id === series.id) ? 'Remove from Favorites' : 'Add to Favorites'}
+                            {favorites.some((fav) => fav.id === series.id) ? "Remove from Favorites" : "Add to Favorites"}
                           </button>
                         </div>
                       </div>
@@ -225,4 +249,5 @@ useEffect(() => {
     </div>
   );
 };
+
 export default HomePage;
